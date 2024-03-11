@@ -1,18 +1,14 @@
-# Salesforce DX Project: Next Steps
+# Scenario - Custom Sales Territory Management
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Sun Motors Inc. is experiencing exponential sales growth after releasing their Model F solar powered sports car. 
 
-## How Do You Plan to Deploy Your Changes?
+They employ a Sales team that sells vehicles to auto dealers across the United States. Each sales representative has a territory of one or more zip codes. Sales reps own the relationship with all auto dealers in their zip code territories.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Sun Motors Inc. currently uses Salesforce to track their sales activities, including:
+Accounts: Each account represents an automobile dealer.
+Opportunities: A sale of vehicles to an automobile dealer.
+Contacts: Automobile dealer employees.
 
-## Configure Your Salesforce DX Project
+The Sales Operations team uses a combination of Salesforce and spreadsheets to manage each sales rep’s territory. They are manually setting the Account Owner field to the sales rep’s User record when the Account’s Zip Code belongs to the sales rep. 
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Since Sun Motors Inc.’s sales team has tripled in size in the past year, the Sales Operations team is having trouble keeping up with all the sales territory changes. This process must be automated!
