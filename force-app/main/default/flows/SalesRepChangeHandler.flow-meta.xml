@@ -59,6 +59,55 @@
                 <elementReference>$Record.Owner__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Accounts.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.Changed_By__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.New_Owner__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Owner__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.New_Territory__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.Previous_Owner__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record__Prior.Owner__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoryToAdd.Previous_Territory__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record__Prior.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AssignmentHistoriesToCreate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>AssignmentHistoryToAdd</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Loop_Accounts</targetReference>
         </connector>
@@ -127,6 +176,16 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Assignment_Histories</name>
+        <label>Create Assignment Histories</label>
+        <locationX>176</locationX>
+        <locationY>1871</locationY>
+        <connector>
+            <targetReference>Get_New_Owner</targetReference>
+        </connector>
+        <inputReference>AssignmentHistoriesToCreate</inputReference>
+    </recordCreates>
     <recordLookups>
         <name>Get_All_Affected_Accounts</name>
         <label>Get All Affected Accounts</label>
@@ -217,7 +276,7 @@
         <name>Get_New_Owner</name>
         <label>Get New Owner</label>
         <locationX>176</locationX>
-        <locationY>1871</locationY>
+        <locationY>1979</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Previous_Owner</targetReference>
@@ -238,7 +297,7 @@
         <name>Get_Previous_Owner</name>
         <label>Get Previous Owner</label>
         <locationX>176</locationX>
-        <locationY>1979</locationY>
+        <locationY>2087</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Send_Notifications</targetReference>
@@ -281,7 +340,7 @@
         <locationX>176</locationX>
         <locationY>1763</locationY>
         <connector>
-            <targetReference>Get_New_Owner</targetReference>
+            <targetReference>Create_Assignment_Histories</targetReference>
         </connector>
         <inputReference>OpportunitiesToUpdate</inputReference>
     </recordUpdates>
@@ -308,7 +367,7 @@
         <name>Send_Notifications</name>
         <label>Send Notifications</label>
         <locationX>176</locationX>
-        <locationY>2087</locationY>
+        <locationY>2195</locationY>
         <flowName>Ownership_Notification_Email</flowName>
         <inputAssignments>
             <name>AccountsChanged</name>
@@ -336,6 +395,32 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>AssignmentHistoriesToCreate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Assignment_History__c</objectType>
+    </variables>
+    <variables>
+        <name>AssignmentHistoryAccount</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>AssignmentHistoryToAdd</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Assignment_History__c</objectType>
     </variables>
     <variables>
         <name>ContactsToUpdate</name>
