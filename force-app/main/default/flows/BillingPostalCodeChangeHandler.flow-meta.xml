@@ -25,6 +25,22 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>Assign_AccountToUpdate</name>
+        <label>Assign AccountToUpdate</label>
+        <locationX>770</locationX>
+        <locationY>2111</locationY>
+        <assignmentItems>
+            <assignToReference>AccountChanged</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Notification</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Is_a_Test</name>
         <label>Is a Test?</label>
@@ -203,7 +219,7 @@
         <locationY>2003</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_Notification</targetReference>
+            <targetReference>Assign_AccountToUpdate</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -373,12 +389,12 @@
         <name>Send_Notification</name>
         <label>Send Notification</label>
         <locationX>770</locationX>
-        <locationY>2111</locationY>
+        <locationY>2219</locationY>
         <flowName>Ownership_Notification_Email</flowName>
         <inputAssignments>
-            <name>AccountChanged</name>
+            <name>AccountsChanged</name>
             <value>
-                <elementReference>$Record</elementReference>
+                <elementReference>AccountChanged</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -394,6 +410,14 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <name>AccountChanged</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
     <variables>
         <name>AccountsToUpdate</name>
         <dataType>SObject</dataType>
