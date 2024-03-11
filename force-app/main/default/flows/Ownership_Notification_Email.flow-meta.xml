@@ -4,7 +4,7 @@
         <name>Ownership_Notification</name>
         <label>Ownership Notification</label>
         <locationX>138</locationX>
-        <locationY>566</locationY>
+        <locationY>458</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -36,7 +36,7 @@
         <name>Ownership_Notification_WO_Previous_Owner</name>
         <label>Ownership Notification WO Previous Owner</label>
         <locationX>490</locationX>
-        <locationY>566</locationY>
+        <locationY>458</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -64,69 +64,11 @@
         <nameSegment>emailSimple</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
-    <actionCalls>
-        <name>Send_One_Email</name>
-        <label>Send One Email</label>
-        <locationX>666</locationX>
-        <locationY>458</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailAddressesArray</name>
-            <value>
-                <elementReference>Addresses</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>{!AccountChanged.Name} Transfer</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <stringValue>Account: {!AccountChanged.Name} changed ownership from {!PreviousOwner.Name} to {!NewOwner.Name}</stringValue>
-            </value>
-        </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>Send_One_Email_WO_Previous_Owner</name>
-        <label>Send One Email WO Previous Owner</label>
-        <locationX>930</locationX>
-        <locationY>458</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailAddressesArray</name>
-            <value>
-                <elementReference>Addresses</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>{!AccountChanged.Name} Transfer</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <stringValue>Account: {!AccountChanged.Name} changed ownership to {!NewOwner.Name}</stringValue>
-            </value>
-        </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
     <apiVersion>60.0</apiVersion>
     <assignments>
         <name>Assign_Emails</name>
         <label>Assign Emails</label>
-        <locationX>512</locationX>
+        <locationX>226</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>Addresses</assignToReference>
@@ -143,39 +85,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Are_Multiple_Accounts</targetReference>
+            <targetReference>Previous_Owner</targetReference>
         </connector>
     </assignments>
-    <decisions>
-        <name>Are_Multiple_Accounts</name>
-        <label>Are Multiple Accounts?</label>
-        <locationX>512</locationX>
-        <locationY>242</locationY>
-        <defaultConnector>
-            <targetReference>There_is_Previous_Owner</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
-        <rules>
-            <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>AccountsChanged</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Previous_Owner</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
     <decisions>
         <name>Previous_Owner</name>
         <label>Previous Owner?</label>
         <locationX>226</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Loop_Email_WO_PO</targetReference>
         </defaultConnector>
@@ -196,31 +113,6 @@
             <label>Yes there is</label>
         </rules>
     </decisions>
-    <decisions>
-        <name>There_is_Previous_Owner</name>
-        <label>There is Previous Owner?</label>
-        <locationX>798</locationX>
-        <locationY>350</locationY>
-        <defaultConnector>
-            <targetReference>Send_One_Email_WO_Previous_Owner</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Previous_Owner</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>PreviousOwner</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Send_One_Email</targetReference>
-            </connector>
-            <label>Yes Previous Owner</label>
-        </rules>
-    </decisions>
     <environments>Default</environments>
     <interviewLabel>Email Notification {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Ownership Notification Email</label>
@@ -228,7 +120,7 @@
         <name>Loop_Email</name>
         <label>Loop Email</label>
         <locationX>50</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
         <collectionReference>AccountsChanged</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -239,7 +131,7 @@
         <name>Loop_Email_WO_PO</name>
         <label>Loop Email WO PO</label>
         <locationX>402</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
         <collectionReference>AccountsChanged</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -266,21 +158,13 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>386</locationX>
+        <locationX>100</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Emails</targetReference>
         </connector>
     </start>
     <status>Active</status>
-    <variables>
-        <name>AccountChanged</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Account</objectType>
-    </variables>
     <variables>
         <name>AccountsChanged</name>
         <dataType>SObject</dataType>
