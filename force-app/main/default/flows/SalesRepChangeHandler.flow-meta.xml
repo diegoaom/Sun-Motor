@@ -181,9 +181,6 @@
         <label>Create Assignment Histories</label>
         <locationX>176</locationX>
         <locationY>1871</locationY>
-        <connector>
-            <targetReference>Get_New_Owner</targetReference>
-        </connector>
         <inputReference>AssignmentHistoriesToCreate</inputReference>
     </recordCreates>
     <recordLookups>
@@ -272,48 +269,6 @@
         <object>Opportunity</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>Get_New_Owner</name>
-        <label>Get New Owner</label>
-        <locationX>176</locationX>
-        <locationY>1979</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_Previous_Owner</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Owner__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>User</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Previous_Owner</name>
-        <label>Get Previous Owner</label>
-        <locationX>176</locationX>
-        <locationY>2087</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Send_Notifications</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record__Prior.Owner__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>User</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
         <name>Update_Accounts</name>
         <label>Update Accounts</label>
@@ -363,31 +318,6 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <subflows>
-        <name>Send_Notifications</name>
-        <label>Send Notifications</label>
-        <locationX>176</locationX>
-        <locationY>2195</locationY>
-        <flowName>Ownership_Notification_Email</flowName>
-        <inputAssignments>
-            <name>AccountsChanged</name>
-            <value>
-                <elementReference>AccountsToUpdate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>NewOwner</name>
-            <value>
-                <elementReference>Get_New_Owner</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>PreviousOwner</name>
-            <value>
-                <elementReference>Get_Previous_Owner</elementReference>
-            </value>
-        </inputAssignments>
-    </subflows>
     <variables>
         <name>AccountsToUpdate</name>
         <dataType>SObject</dataType>
