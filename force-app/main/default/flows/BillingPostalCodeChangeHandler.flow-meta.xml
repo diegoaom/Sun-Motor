@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Select_Random_Owner</name>
         <label>Select Random Owner</label>
-        <locationX>770</locationX>
-        <locationY>1247</locationY>
+        <locationX>484</locationX>
+        <locationY>1139</locationY>
         <actionName>RandomOwnerSelector</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -25,49 +25,11 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
-    <assignments>
-        <name>Assign_AccountToUpdate</name>
-        <label>Assign AccountToUpdate</label>
-        <locationX>770</locationX>
-        <locationY>2111</locationY>
-        <assignmentItems>
-            <assignToReference>AccountChanged</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Send_Notification</targetReference>
-        </connector>
-    </assignments>
-    <decisions>
-        <name>Is_a_Test</name>
-        <label>Is a Test?</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
-        <defaultConnector>
-            <targetReference>Get_Previous_Territory</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
-        <rules>
-            <name>Yes_is_a_Test</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Setup.Flow_Control__c.Disable_Flow_For_Testing__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>Yes is a Test</label>
-        </rules>
-    </decisions>
     <decisions>
         <name>Is_the_same_Sales_Rep</name>
         <label>Is the same Sales Rep?</label>
-        <locationX>990</locationX>
-        <locationY>863</locationY>
+        <locationX>704</locationX>
+        <locationY>755</locationY>
         <defaultConnector>
             <targetReference>Loop_Sales_Rep</targetReference>
         </defaultConnector>
@@ -88,8 +50,8 @@
     <decisions>
         <name>There_is_Sales_Rep</name>
         <label>There is Sales Rep?</label>
-        <locationX>462</locationX>
-        <locationY>647</locationY>
+        <locationX>176</locationX>
+        <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Loop_Sales_Rep</targetReference>
         </defaultConnector>
@@ -113,8 +75,8 @@
     <loops>
         <name>Loop_Sales_Rep</name>
         <label>Loop Sales Rep</label>
-        <locationX>770</locationX>
-        <locationY>755</locationY>
+        <locationX>484</locationX>
+        <locationY>647</locationY>
         <collectionReference>Sales_Representatives</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -146,11 +108,8 @@
     <recordCreates>
         <name>Create_Assignment_History</name>
         <label>Create Assignment History</label>
-        <locationX>770</locationX>
-        <locationY>1787</locationY>
-        <connector>
-            <targetReference>Get_Previous_Owner</targetReference>
-        </connector>
+        <locationX>484</locationX>
+        <locationY>1679</locationY>
         <inputAssignments>
             <field>Account__c</field>
             <value>
@@ -193,8 +152,8 @@
     <recordLookups>
         <name>Get_Matching_Territories</name>
         <label>Get Matching Territories</label>
-        <locationX>462</locationX>
-        <locationY>539</locationY>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>There_is_Sales_Rep</targetReference>
@@ -213,31 +172,10 @@
         <queriedFields>Owner__c</queriedFields>
     </recordLookups>
     <recordLookups>
-        <name>Get_New_Owner</name>
-        <label>Get New Owner</label>
-        <locationX>770</locationX>
-        <locationY>2003</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Assign_AccountToUpdate</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.OwnerId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>User</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_New_Territory</name>
         <label>Get New Territory</label>
-        <locationX>770</locationX>
-        <locationY>1679</locationY>
+        <locationX>484</locationX>
+        <locationY>1571</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Assignment_History</targetReference>
@@ -262,31 +200,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Previous_Owner</name>
-        <label>Get Previous Owner</label>
-        <locationX>770</locationX>
-        <locationY>1895</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_New_Owner</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record__Prior.OwnerId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>User</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_Previous_Territory</name>
         <label>Get Previous Territory</label>
-        <locationX>462</locationX>
-        <locationY>431</locationY>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Matching_Territories</targetReference>
@@ -313,8 +230,8 @@
     <recordUpdates>
         <name>Update_Account</name>
         <label>Update Account</label>
-        <locationX>770</locationX>
-        <locationY>1355</locationY>
+        <locationX>484</locationX>
+        <locationY>1247</locationY>
         <connector>
             <targetReference>Update_Related_Contacts</targetReference>
         </connector>
@@ -329,8 +246,8 @@
     <recordUpdates>
         <name>Update_Related_Contacts</name>
         <label>Update Related Contacts</label>
-        <locationX>770</locationX>
-        <locationY>1463</locationY>
+        <locationX>484</locationX>
+        <locationY>1355</locationY>
         <connector>
             <targetReference>Update_Related_Open_Opportunities</targetReference>
         </connector>
@@ -345,8 +262,8 @@
     <recordUpdates>
         <name>Update_Related_Open_Opportunities</name>
         <label>Update Related Open Opportunities</label>
-        <locationX>770</locationX>
-        <locationY>1571</locationY>
+        <locationX>484</locationX>
+        <locationY>1463</locationY>
         <connector>
             <targetReference>Get_New_Territory</targetReference>
         </connector>
@@ -377,7 +294,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Is_a_Test</targetReference>
+            <targetReference>Get_Previous_Territory</targetReference>
         </connector>
         <filterFormula>ISNEW() &amp;&amp; NOT(ISBLANK({!$Record.BillingPostalCode})) || ISCHANGED({!$Record.BillingPostalCode})</filterFormula>
         <object>Account</object>
@@ -385,31 +302,6 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <subflows>
-        <name>Send_Notification</name>
-        <label>Send Notification</label>
-        <locationX>770</locationX>
-        <locationY>2219</locationY>
-        <flowName>Ownership_Notification_Email</flowName>
-        <inputAssignments>
-            <name>AccountsChanged</name>
-            <value>
-                <elementReference>AccountChanged</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>NewOwner</name>
-            <value>
-                <elementReference>Get_New_Owner</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>PreviousOwner</name>
-            <value>
-                <elementReference>Get_Previous_Owner</elementReference>
-            </value>
-        </inputAssignments>
-    </subflows>
     <variables>
         <name>AccountChanged</name>
         <dataType>SObject</dataType>
