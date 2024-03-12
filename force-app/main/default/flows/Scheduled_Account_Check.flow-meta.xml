@@ -4,7 +4,7 @@
         <name>Select_Random_Owner</name>
         <label>Select Random Owner</label>
         <locationX>358</locationX>
-        <locationY>1200</locationY>
+        <locationY>1800</locationY>
         <actionName>RandomOwnerSelector</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -14,7 +14,7 @@
         <inputParameters>
             <name>territoryLists</name>
             <value>
-                <elementReference>Valid_Territories</elementReference>
+                <elementReference>ValidTerritories</elementReference>
             </value>
         </inputParameters>
         <nameSegment>RandomOwnerSelector</nameSegment>
@@ -29,7 +29,7 @@
         <name>Account_Assignments</name>
         <label>Account Assignments</label>
         <locationX>358</locationX>
-        <locationY>1416</locationY>
+        <locationY>2316</locationY>
         <assignmentItems>
             <assignToReference>AssignmentHistoryToCreate.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -55,7 +55,7 @@
             <assignToReference>AssignmentHistoryToCreate.New_Territory__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>currentItem_New_Territory.Id</elementReference>
+                <elementReference>NewTerritory.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -107,10 +107,42 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_New_Territory</name>
+        <label>Assign New Territory</label>
+        <locationX>446</locationX>
+        <locationY>2124</locationY>
+        <assignmentItems>
+            <assignToReference>NewTerritory</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_New_Territory</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_New_Territory</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Valid_Territories</name>
+        <label>Assign Valid Territories</label>
+        <locationX>446</locationX>
+        <locationY>1608</locationY>
+        <assignmentItems>
+            <assignToReference>ValidTerritories</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Valid_Territories</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Valid_Territories</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assignment_Owner_Cont</name>
         <label>Assignment Owner Cont</label>
         <locationX>446</locationX>
-        <locationY>1848</locationY>
+        <locationY>2748</locationY>
         <assignmentItems>
             <assignToReference>Loop_Related_Contacts.OwnerId</assignToReference>
             <operator>Assign</operator>
@@ -133,7 +165,7 @@
         <name>Assignment_Owner_Opp</name>
         <label>Assignment Owner Opp</label>
         <locationX>446</locationX>
-        <locationY>2148</locationY>
+        <locationY>3048</locationY>
         <assignmentItems>
             <assignToReference>Loop_Related_Opportunities.OwnerId</assignToReference>
             <operator>Assign</operator>
@@ -152,32 +184,48 @@
             <targetReference>Loop_Related_Opportunities</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Assignment_Territories</name>
+        <label>Assignment Territories</label>
+        <locationX>578</locationX>
+        <locationY>1092</locationY>
+        <assignmentItems>
+            <assignToReference>ActualTerritory</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Actual_Territory</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Actual_Territory</targetReference>
+        </connector>
+    </assignments>
     <collectionProcessors>
         <name>Actual_Territory_Search</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Actual Territory Search</label>
         <locationX>490</locationX>
         <locationY>876</locationY>
-        <assignNextValueToReference>currentItem_Collection_Filter_1</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Actual_Territory_Search</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_All_Territories</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Collection_Filter_1.Zip_Code__c</leftValueReference>
+            <leftValueReference>currentItem_Actual_Territory_Search.Zip_Code__c</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>Account_Loop.BillingPostalCode</elementReference>
             </rightValue>
         </conditions>
         <conditions>
-            <leftValueReference>currentItem_Collection_Filter_1.Owner__c</leftValueReference>
+            <leftValueReference>currentItem_Actual_Territory_Search.Owner__c</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>Account_Loop.OwnerId</elementReference>
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>Is_Owner_Correct</targetReference>
+            <targetReference>Loop_Actual_Territory</targetReference>
         </connector>
     </collectionProcessors>
     <collectionProcessors>
@@ -185,7 +233,7 @@
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>New Territory</label>
         <locationX>358</locationX>
-        <locationY>1308</locationY>
+        <locationY>1908</locationY>
         <assignNextValueToReference>currentItem_New_Territory</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_All_Territories</collectionReference>
@@ -205,7 +253,7 @@
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>Account_Assignments</targetReference>
+            <targetReference>Loop_New_Territory</targetReference>
         </connector>
     </collectionProcessors>
     <collectionProcessors>
@@ -213,7 +261,7 @@
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Valid Territories</label>
         <locationX>358</locationX>
-        <locationY>1092</locationY>
+        <locationY>1392</locationY>
         <assignNextValueToReference>currentItem_Collection_Filter_2</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_All_Territories</collectionReference>
@@ -226,26 +274,33 @@
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>Select_Random_Owner</targetReference>
+            <targetReference>Loop_Valid_Territories</targetReference>
         </connector>
     </collectionProcessors>
     <decisions>
         <name>Is_Owner_Correct</name>
         <label>Is Owner Correct?</label>
         <locationX>490</locationX>
-        <locationY>984</locationY>
+        <locationY>1284</locationY>
         <defaultConnector>
             <targetReference>Account_Loop</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Yes</defaultConnectorLabel>
         <rules>
             <name>No_is_Not</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>currentItem_Collection_Filter_1</leftValueReference>
+                <leftValueReference>ActualTerritory.Id</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ActualTerritory.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -258,7 +313,7 @@
         <name>Was_there_any_Missmatch</name>
         <label>Was there any Missmatch?</label>
         <locationX>182</locationX>
-        <locationY>2508</locationY>
+        <locationY>3408</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -294,10 +349,38 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Actual_Territory</name>
+        <label>Loop Actual Territory</label>
+        <locationX>490</locationX>
+        <locationY>984</locationY>
+        <collectionReference>Actual_Territory_Search</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assignment_Territories</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_Owner_Correct</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_New_Territory</name>
+        <label>Loop New Territory</label>
+        <locationX>358</locationX>
+        <locationY>2016</locationY>
+        <collectionReference>New_Territory</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_New_Territory</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Account_Assignments</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_Related_Contacts</name>
         <label>Loop Related Contacts</label>
         <locationX>358</locationX>
-        <locationY>1740</locationY>
+        <locationY>2640</locationY>
         <collectionReference>Get_All_Related_Contacts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -311,7 +394,7 @@
         <name>Loop_Related_Opportunities</name>
         <label>Loop Related Opportunities</label>
         <locationX>358</locationX>
-        <locationY>2040</locationY>
+        <locationY>2940</locationY>
         <collectionReference>Get_All_Related_Opportunities</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -333,6 +416,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Get_All_Accounts_w_BillingPostalCode</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Valid_Territories</name>
+        <label>Loop Valid Territories</label>
+        <locationX>358</locationX>
+        <locationY>1500</locationY>
+        <collectionReference>Valid_Territories</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Valid_Territories</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Select_Random_Owner</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -358,7 +455,7 @@
         <name>Create_Assignment_History</name>
         <label>Create Assignment History</label>
         <locationX>50</locationX>
-        <locationY>2940</locationY>
+        <locationY>3840</locationY>
         <inputReference>AssignmentHistoriesToCreate</inputReference>
     </recordCreates>
     <recordLookups>
@@ -386,7 +483,7 @@
         <name>Get_All_Related_Contacts</name>
         <label>Get All Related Contacts</label>
         <locationX>358</locationX>
-        <locationY>1524</locationY>
+        <locationY>2424</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_All_Related_Opportunities</targetReference>
@@ -407,7 +504,7 @@
         <name>Get_All_Related_Opportunities</name>
         <label>Get All Related Opportunities</label>
         <locationX>358</locationX>
-        <locationY>1632</locationY>
+        <locationY>2532</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Related_Contacts</targetReference>
@@ -455,7 +552,7 @@
         <name>Update_Accounts</name>
         <label>Update Accounts</label>
         <locationX>50</locationX>
-        <locationY>2616</locationY>
+        <locationY>3516</locationY>
         <connector>
             <targetReference>Update_Contacts</targetReference>
         </connector>
@@ -465,7 +562,7 @@
         <name>Update_Contacts</name>
         <label>Update Contacts</label>
         <locationX>50</locationX>
-        <locationY>2724</locationY>
+        <locationY>3624</locationY>
         <connector>
             <targetReference>Update_Opportunities</targetReference>
         </connector>
@@ -475,7 +572,7 @@
         <name>Update_Opportunities</name>
         <label>Update Opportunities</label>
         <locationX>50</locationX>
-        <locationY>2832</locationY>
+        <locationY>3732</locationY>
         <connector>
             <targetReference>Create_Assignment_History</targetReference>
         </connector>
@@ -494,7 +591,7 @@
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>AccountsToUpdate</name>
         <dataType>SObject</dataType>
@@ -502,6 +599,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>ActualTerritory</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Territory__c</objectType>
     </variables>
     <variables>
         <name>AssignmentHistoriesToCreate</name>
@@ -538,7 +643,7 @@
         <objectType>Contact</objectType>
     </variables>
     <variables>
-        <name>currentItem_Collection_Filter_1</name>
+        <name>currentItem_Actual_Territory_Search</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -562,12 +667,36 @@
         <objectType>Territory__c</objectType>
     </variables>
     <variables>
+        <name>NewTerritory</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Territory__c</objectType>
+    </variables>
+    <variables>
         <name>OppsToUpdate</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <name>TerritoriesFromMatchingZipCode</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Territory__c</objectType>
+    </variables>
+    <variables>
+        <name>ValidTerritories</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Territory__c</objectType>
     </variables>
     <variables>
         <name>ZipCodeList</name>
